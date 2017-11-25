@@ -288,10 +288,6 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
             const service = InjectorService.get<any>(provider.provide);
 
             if (eventName in service) {
-                /* istanbul ignore next */
-                if (eventName === "$onInjectorReady") {
-                    $log.warn("$onInjectorReady hook is deprecated, use $onInit hook insteadof. See https://goo.gl/KhvkVy");
-                }
                 promises.push(service[eventName](...args));
             }
         });
@@ -406,8 +402,7 @@ export class InjectorService extends ProxyRegistry<Provider<any>, IProviderOptio
         );
 
         return Promise.all([
-            this.emit("$onInit"),
-            this.emit("$onInjectorReady") // deprecated
+            this.emit("$onInit")
         ]);
     }
 
